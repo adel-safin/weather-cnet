@@ -5,11 +5,7 @@ using Weather.Application.Logging;
 
 namespace Weather.Application.Behaviors;
 
-/// <summary>
-/// Сигнализирует о медленных запросах. Порог намеренно невысокий:
-/// экран собирается из двух параллельных HTTP-вызовов, и всё, что дольше
-/// секунды, означает проблему у провайдера или промах кэша на холодном старте.
-/// </summary>
+/// <summary>Сигнализирует о медленных запросах - порог намеренно невысокий: экран собирается из двух параллельных HTTP-вызовов, и всё, что дольше секунды, означает проблему у провайдера или промах кэша на холодном старте</summary>
 public sealed class PerformanceBehavior<TRequest, TResponse>(
     ILogger<PerformanceBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>

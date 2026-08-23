@@ -3,10 +3,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Domain.UnitTests.Forecasts;
 
-/// <summary>
-/// Правило из ТЗ: показываем оставшиеся часы текущих суток и все часы следующих.
-/// Тесты фиксируют поведение на границах суток, где ошибиться проще всего.
-/// </summary>
+/// <summary>Правило из ТЗ: показываем оставшиеся часы текущих суток и все часы следующих - тесты фиксируют поведение на границах суток, где ошибиться проще всего</summary>
 public sealed class HourlyWindowTests
 {
     private static readonly TimeSpan MoscowOffset = TimeSpan.FromHours(3);
@@ -19,7 +16,7 @@ public sealed class HourlyWindowTests
 
         IReadOnlyList<HourlyForecast> window = HourlyWindow.Select(hours, localNow);
 
-        // 14 часов от 10:00 до 23:00 включительно плюс 24 часа следующего дня.
+        // 14 часов от 10:00 до 23:00 включительно плюс 24 часа следующего дня
         window.Count.ShouldBe(38);
         window[0].Time.ShouldBe(new DateTimeOffset(2026, 8, 23, 10, 0, 0, MoscowOffset));
         window[^1].Time.ShouldBe(new DateTimeOffset(2026, 8, 24, 23, 0, 0, MoscowOffset));
@@ -95,10 +92,7 @@ public sealed class HourlyWindowTests
     public void Select_NullSource_Throws() =>
         Should.Throw<ArgumentNullException>(() => HourlyWindow.Select(null!, DateTimeOffset.UtcNow));
 
-    /// <summary>
-    /// Часовой пояс локации может отличаться от часового пояса сервера,
-    /// поэтому окно обязано считаться в смещении локации.
-    /// </summary>
+    /// <summary>Часовой пояс локации может отличаться от часового пояса сервера, поэтому окно обязано считаться в смещении локации</summary>
     [Fact]
     public void Select_UsesLocationOffset_NotServerTimeZone()
     {

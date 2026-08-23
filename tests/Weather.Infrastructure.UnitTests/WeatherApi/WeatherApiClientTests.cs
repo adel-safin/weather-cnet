@@ -88,7 +88,7 @@ public sealed class WeatherApiClientTests
         result.Value.Days[0].MinTemperature.Celsius.ShouldBe(15.2);
         result.Value.Days[0].Sunrise.ShouldBe("05:17 AM");
 
-        // Три дня по 24 часа: почасовое окно отбирается уже в домене.
+        // Три дня по 24 часа: почасовое окно отбирается уже в домене
         result.Value.Hours.Count.ShouldBe(72);
         result.Value.Hours.ShouldBeInOrder(SortDirection.Ascending, Comparer<HourlyForecast>.Create(
             (left, right) => left.Time.CompareTo(right.Time)));
@@ -217,7 +217,7 @@ public sealed class WeatherApiClientTests
         result.Error.Code.ShouldBe("weather.provider_unavailable");
         result.Error.Type.ShouldBe(ErrorType.Unavailable);
 
-        // Первая попытка плюс два повтора: дальше клиент сдаётся, а не висит на пользователе.
+        // Первая попытка плюс два повтора: дальше клиент сдаётся, а не висит на пользователе
         host.RequestCount.ShouldBe(3);
     }
 

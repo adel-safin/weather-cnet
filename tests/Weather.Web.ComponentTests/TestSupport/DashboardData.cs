@@ -3,10 +3,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Web.ComponentTests.TestSupport;
 
-/// <summary>
-/// Доменные данные для рендера страницы: тесты работают с тем же типом,
-/// который отдаёт обработчик запроса, без промежуточных подделок.
-/// </summary>
+/// <summary>Доменные данные для рендера страницы: тесты работают с тем же типом, который отдаёт обработчик запроса, без промежуточных подделок</summary>
 internal static class DashboardData
 {
     public static readonly TimeSpan MoscowOffset = TimeSpan.FromHours(3);
@@ -15,10 +12,7 @@ internal static class DashboardData
 
     private static readonly Uri IconUrl = new("https://cdn.weatherapi.com/weather/64x64/day/113.png");
 
-    /// <summary>
-    /// Экран в состоянии «поздний вечер»: сегодня остаётся два часа,
-    /// завтрашний день показывается целиком.
-    /// </summary>
+    /// <summary>Экран в состоянии «поздний вечер»: сегодня остаётся два часа, завтрашний день показывается целиком</summary>
     public static WeatherDashboard Dashboard(string locationName = "Москва")
     {
         DateOnly today = DateOnly.FromDateTime(LocalNow.Date);
@@ -57,8 +51,7 @@ internal static class DashboardData
     {
         DateTimeOffset start = new DateTimeOffset(LocalNow.Date, MoscowOffset).AddHours(LocalNow.Hour);
 
-        // Два оставшихся часа сегодня плюс 24 часа завтра — ровно то окно,
-        // которое домен отдаёт странице.
+        // Два оставшихся часа сегодня плюс 24 часа завтра - ровно то окно, которое домен отдаёт странице
         return [.. Enumerable.Range(0, 26).Select(index => Hour(start.AddHours(index)))];
     }
 

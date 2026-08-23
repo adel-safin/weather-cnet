@@ -7,10 +7,7 @@ using Weather.Infrastructure;
 
 namespace Weather.ArchitectureTests;
 
-/// <summary>
-/// Направление зависимостей — договорённость, которую легко нарушить одним using.
-/// Здесь она проверяется сборкой, а не ревью.
-/// </summary>
+/// <summary>Направление зависимостей - договорённость, которую легко нарушить одним using - здесь она проверяется сборкой, а не ревью</summary>
 public sealed class LayerDependencyTests
 {
     private static readonly Assembly Domain = typeof(Result).Assembly;
@@ -80,7 +77,7 @@ public sealed class LayerDependencyTests
     [Fact]
     public void ProviderImplementations_StayInsideInfrastructure()
     {
-        // Порт объявлен в Application, реализации не должны утекать в другие слои.
+        // Порт объявлен в Application, реализации не должны утекать в другие слои
         Types.InAssembly(Application)
             .That()
             .ImplementInterface(typeof(IWeatherProvider))

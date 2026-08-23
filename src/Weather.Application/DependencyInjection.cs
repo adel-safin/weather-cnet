@@ -18,8 +18,7 @@ public static class DependencyInjection
         {
             configuration.RegisterServicesFromAssembly(assembly);
 
-            // Порядок важен: логирование видит запрос целиком, затем отсекается
-            // невалидный ввод, и только потом замеряется время работы обработчика.
+            // Порядок важен: логирование видит запрос целиком, затем отсекается невалидный ввод, и только потом замеряется время работы обработчика
             configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
             configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
             configuration.AddOpenBehavior(typeof(PerformanceBehavior<,>));
@@ -27,8 +26,7 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 
-        // TimeProvider делает работу со временем тестируемой:
-        // в тестах подменяется на FakeTimeProvider.
+        // TimeProvider делает работу со временем тестируемой: в тестах подменяется на FakeTimeProvider
         services.TryAddSingleton(TimeProvider.System);
 
         return services;

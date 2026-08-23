@@ -2,9 +2,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Domain.Forecasts;
 
-/// <summary>
-/// Текущая погода в точке запроса.
-/// </summary>
+/// <summary>Текущая погода в точке запроса</summary>
 public sealed record CurrentWeather(
     Temperature Temperature,
     Temperature FeelsLike,

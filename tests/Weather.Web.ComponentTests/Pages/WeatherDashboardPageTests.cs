@@ -53,7 +53,7 @@ public sealed class WeatherDashboardPageTests : BunitContext
         page.Find("h1").TextContent.ShouldBe("Москва");
         page.Find(".current-card__temperature").TextContent.ShouldBe("+21°");
 
-        // Требование ТЗ: остаток текущего дня плюс весь следующий и ровно три дня прогноза.
+        // Требование ТЗ: остаток текущего дня плюс весь следующий и ровно три дня прогноза
         page.FindAll(".hour").Count.ShouldBe(26);
         page.FindAll(".day").Count.ShouldBe(3);
     }

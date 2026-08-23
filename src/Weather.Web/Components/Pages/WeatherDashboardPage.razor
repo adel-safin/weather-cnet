@@ -63,11 +63,7 @@
 
     private bool _isLoading;
 
-    /// <summary>
-    /// Состояние переживает переход от предварительного рендера к интерактивному.
-    /// Без этого OnInitializedAsync отработал бы дважды и сходил бы к провайдеру
-    /// два раза на каждое открытие страницы.
-    /// </summary>
+    /// <summary>Состояние переживает переход от предварительного рендера к интерактивному - без этого OnInitializedAsync отработал бы дважды и сходил бы к провайдеру два раза на каждое открытие страницы</summary>
     [PersistentState]
     public WeatherDashboardResponse? Dashboard { get; set; }
 
@@ -118,7 +114,7 @@
         }
         catch (OperationCanceledException)
         {
-            // Пользователь ушёл со страницы — показывать нечего.
+            // Пользователь ушёл со страницы - показывать нечего
         }
         catch (Exception exception) when (exception is not OutOfMemoryException)
         {

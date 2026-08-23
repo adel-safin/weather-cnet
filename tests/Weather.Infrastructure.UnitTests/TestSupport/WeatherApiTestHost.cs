@@ -8,11 +8,7 @@ using WireMock.Server;
 
 namespace Weather.Infrastructure.UnitTests.TestSupport;
 
-/// <summary>
-/// Поднимает подставной weatherapi.com и собирает контейнер тем же методом
-/// <see cref="DependencyInjection.AddInfrastructure"/>, что и приложение:
-/// тесты проверяют реальную конфигурацию клиента вместе с политиками устойчивости.
-/// </summary>
+/// <summary>Поднимает подставной weatherapi.com и собирает контейнер тем же методом <see cref="DependencyInjection.AddInfrastructure"/>, что и приложение: тесты проверяют реальную конфигурацию клиента вместе с политиками устойчивости</summary>
 internal sealed class WeatherApiTestHost : IDisposable
 {
     private readonly ServiceProvider _services;
@@ -25,19 +21,13 @@ internal sealed class WeatherApiTestHost : IDisposable
 
     public WireMockServer Server { get; }
 
-    /// <summary>
-    /// Число запросов, дошедших до провайдера: так проверяются повторы и попадания в кэш.
-    /// </summary>
+    /// <summary>Число запросов, дошедших до провайдера: так проверяются повторы и попадания в кэш</summary>
     public int RequestCount => Server.LogEntries.Count;
 
-    /// <summary>
-    /// Клиент без кэша — для проверок разбора ответа и маппинга ошибок.
-    /// </summary>
+    /// <summary>Клиент без кэша - для проверок разбора ответа и маппинга ошибок</summary>
     public WeatherApiClient Client => _services.GetRequiredService<WeatherApiClient>();
 
-    /// <summary>
-    /// Порт в том виде, в каком его получает приложение, то есть с кэширующим декоратором.
-    /// </summary>
+    /// <summary>Порт в том виде, в каком его получает приложение, то есть с кэширующим декоратором</summary>
     public IWeatherProvider CachedProvider => _services.GetRequiredService<IWeatherProvider>();
 
     public static WeatherApiTestHost Start(int cacheSeconds = 0, int maxRetryAttempts = 2)
@@ -52,9 +42,9 @@ internal sealed class WeatherApiTestHost : IDisposable
                 ["Weather:WeatherApi:Language"] = "ru",
                 ["Weather:WeatherApi:TimeoutSeconds"] = "5",
                 ["Weather:WeatherApi:MaxRetryAttempts"] = maxRetryAttempts.ToString(CultureInfo.InvariantCulture),
-                // Повторы в тестах не должны стоить реального времени ожидания.
+                // Повторы в тестах не должны стоить реального времени ожидания
                 ["Weather:WeatherApi:RetryBaseDelayMilliseconds"] = "1",
-                // Ноль отключает кэш: по умолчанию тесты видят каждый вызов провайдера.
+                // Ноль отключает кэш: по умолчанию тесты видят каждый вызов провайдера
                 ["Weather:WeatherApi:CurrentCacheSeconds"] = cacheSeconds.ToString(CultureInfo.InvariantCulture),
                 ["Weather:WeatherApi:ForecastCacheSeconds"] = cacheSeconds.ToString(CultureInfo.InvariantCulture),
                 ["Weather:Location:Name"] = "Москва",

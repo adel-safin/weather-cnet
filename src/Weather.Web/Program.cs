@@ -17,9 +17,7 @@ builder.Services.AddSerilog((services, configuration) => configuration
     .Enrich.FromLogContext()
     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture));
 
-// MediatR 13+ распространяется по двойной лицензии и на старте пишет предупреждение
-// об отсутствии коммерческого ключа. Для разработки и тестирования ключ не требуется,
-// поэтому шум глушим точечно, не трогая остальные логи библиотеки.
+// MediatR 13+ распространяется по двойной лицензии и на старте пишет предупреждение об отсутствии коммерческого ключа - для разработки и тестирования ключ не требуется, поэтому шум глушим точечно, не трогая остальные логи библиотеки
 builder.Logging.AddFilter("LuckyPennySoftware.MediatR.License", LogLevel.None);
 
 builder.Services.AddApplication();
@@ -28,9 +26,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Кодировщики по умолчанию экранируют всё за пределами ASCII: каждая русская буква
-// превращается в "&#x41C;" в HTML и в "\u041C" в JSON, раздувая ответ в несколько раз
-// и делая его нечитаемым при отладке.
+// Кодировщики по умолчанию экранируют всё за пределами ASCII: каждая русская буква превращается в "&#x41C;" в HTML и в "\u041C" в JSON, раздувая ответ в несколько раз и делая его нечитаемым при отладке
 builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic));
 builder.Services.ConfigureHttpJsonOptions(json =>
     json.SerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic));
@@ -48,8 +44,7 @@ app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler("/Error", createScopeForErrors: true);
 
-// В контейнере за обратным прокси TLS терминируется снаружи: включённый там
-// редирект отправлял бы пользователя на несуществующий порт.
+// В контейнере за обратным прокси TLS терминируется снаружи: включённый там редирект отправлял бы пользователя на несуществующий порт
 bool useHttpsRedirection = app.Configuration.GetValue("Weather:UseHttpsRedirection", defaultValue: true);
 
 if (!app.Environment.IsDevelopment() && useHttpsRedirection)
@@ -82,8 +77,5 @@ if (app.Environment.IsDevelopment())
 
 await app.RunAsync().ConfigureAwait(false);
 
-/// <summary>
-/// Явное объявление точки входа нужно, чтобы интеграционные тесты
-/// могли поднять приложение через WebApplicationFactory.
-/// </summary>
+/// <summary>Явное объявление точки входа нужно, чтобы интеграционные тесты могли поднять приложение через WebApplicationFactory</summary>
 public partial class Program;

@@ -1,9 +1,6 @@
 namespace Weather.Domain.Common;
 
-/// <summary>
-/// Категория ошибки. Нужна внешним слоям, чтобы выбрать HTTP-статус
-/// и текст для пользователя, не разбирая коды строками.
-/// </summary>
+/// <summary>Категория ошибки - нужна внешним слоям, чтобы выбрать HTTP-статус и текст для пользователя, не разбирая коды строками</summary>
 public enum ErrorType
 {
     Validation,
@@ -14,10 +11,7 @@ public enum ErrorType
     Unexpected,
 }
 
-/// <summary>
-/// Ожидаемая ошибка бизнес-сценария. Исключения остаются для того,
-/// что действительно является дефектом, а не штатным исходом.
-/// </summary>
+/// <summary>Ожидаемая ошибка бизнес-сценария - исключения остаются для того, что действительно является дефектом, а не штатным исходом</summary>
 public sealed record Error(string Code, string Message, ErrorType Type)
 {
     public static readonly Error None = new(string.Empty, string.Empty, ErrorType.Unexpected);

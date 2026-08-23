@@ -3,9 +3,7 @@ using Weather.Domain.Common;
 
 namespace Weather.Domain.ValueObjects;
 
-/// <summary>
-/// Географические координаты точки запроса погоды.
-/// </summary>
+/// <summary>Географические координаты точки запроса погоды</summary>
 public readonly record struct Coordinates
 {
     public const double MinLatitude = -90d;
@@ -42,11 +40,7 @@ public readonly record struct Coordinates
         return Result.Success(new Coordinates(latitude, longitude));
     }
 
-    /// <summary>
-    /// Формат "LAT,LON" для параметра q внешнего API.
-    /// Инвариантная культура обязательна: на ru-RU разделителем дробной части
-    /// была бы запятая, и запрос ушёл бы с четырьмя числами вместо двух.
-    /// </summary>
+    /// <summary>Формат "LAT,LON" для параметра q внешнего API - инвариантная культура обязательна: на ru-RU разделителем дробной части была бы запятая, и запрос ушёл бы с четырьмя числами вместо двух</summary>
     public string ToQueryValue() => string.Create(CultureInfo.InvariantCulture, $"{Latitude},{Longitude}");
 
     public override string ToString() => ToQueryValue();

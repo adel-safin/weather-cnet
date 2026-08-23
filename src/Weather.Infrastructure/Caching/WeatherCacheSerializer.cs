@@ -5,12 +5,7 @@ using Microsoft.Extensions.Caching.Hybrid;
 
 namespace Weather.Infrastructure.Caching;
 
-/// <summary>
-/// Сериализатор доменных снимков погоды для <see cref="HybridCache"/>.
-/// Кэш хранит значения в виде байтов (в том числе в памяти, чтобы защититься
-/// от мутаций и переживать переезд на распределённый кэш), поэтому типам
-/// нужен явный набор правил разбора.
-/// </summary>
+/// <summary>Сериализатор доменных снимков погоды для <see cref="HybridCache"/> - кэш хранит значения в виде байтов (в том числе в памяти, чтобы защититься от мутаций и переживать переезд на распределённый кэш), поэтому типам нужен явный набор правил разбора</summary>
 internal sealed class WeatherCacheSerializer<TValue> : IHybridCacheSerializer<TValue>
 {
     public static readonly WeatherCacheSerializer<TValue> Instance = new();

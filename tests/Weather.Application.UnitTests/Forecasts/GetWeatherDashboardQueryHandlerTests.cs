@@ -33,7 +33,7 @@ public sealed class GetWeatherDashboardQueryHandlerTests
         result.Value.Location.Name.ShouldBe("Москва");
         result.Value.Daily.Count.ShouldBe(3);
 
-        // 10:30 по Москве: 14 часов до конца суток плюс все 24 часа следующего дня.
+        // 10:30 по Москве: 14 часов до конца суток плюс все 24 часа следующего дня
         result.Value.Hourly.Count.ShouldBe(38);
         result.Value.Hourly[0].Time.Hour.ShouldBe(10);
     }
@@ -48,8 +48,7 @@ public sealed class GetWeatherDashboardQueryHandlerTests
             .Returns(async _ =>
             {
                 currentStarted.TrySetResult();
-                // Обработчик не должен ждать завершения первого вызова,
-                // чтобы начать второй.
+                // Обработчик не должен ждать завершения первого вызова, чтобы начать второй
                 await forecastStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 return Result.Success(WeatherTestData.CurrentSnapshot());
             });
@@ -83,10 +82,7 @@ public sealed class GetWeatherDashboardQueryHandlerTests
         result.Error.ShouldBe(WeatherErrors.ProviderUnavailable);
     }
 
-    /// <summary>
-    /// Ответ forecast.json содержит и текущую погоду, поэтому сбой отдельного
-    /// эндпоинта current не должен ронять весь экран.
-    /// </summary>
+    /// <summary>Ответ forecast.json содержит и текущую погоду, поэтому сбой отдельного эндпоинта current не должен ронять весь экран</summary>
     [Fact]
     public async Task Handle_CurrentFails_FallsBackToForecastCurrent()
     {
@@ -127,10 +123,7 @@ public sealed class GetWeatherDashboardQueryHandlerTests
         await _provider.Received(1).GetForecastAsync(Arg.Any<Coordinates>(), 3, Arg.Any<CancellationToken>());
     }
 
-    /// <summary>
-    /// Окно часов считается по текущему времени, а не по времени из ответа провайдера:
-    /// ответ может прийти из кэша и быть немного устаревшим.
-    /// </summary>
+    /// <summary>Окно часов считается по текущему времени, а не по времени из ответа провайдера: ответ может прийти из кэша и быть немного устаревшим</summary>
     [Fact]
     public async Task Handle_UsesCurrentTime_NotTimestampFromCachedResponse()
     {
@@ -140,7 +133,7 @@ public sealed class GetWeatherDashboardQueryHandlerTests
         Result<WeatherDashboard> result = await CreateHandler()
             .Handle(new GetWeatherDashboardQuery(55.7558d, 37.6173d), CancellationToken.None);
 
-        // 20:05 UTC — это 23:05 по Москве: остаётся один час сегодня и сутки завтра.
+        // 20:05 UTC - это 23:05 по Москве: остаётся один час сегодня и сутки завтра
         result.Value.Hourly.Count.ShouldBe(25);
         result.Value.Hourly[0].Time.Hour.ShouldBe(23);
     }

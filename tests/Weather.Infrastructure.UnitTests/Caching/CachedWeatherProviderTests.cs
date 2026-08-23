@@ -37,8 +37,7 @@ public sealed class CachedWeatherProviderTests
         Result<CurrentWeatherSnapshot> first = await host.CachedProvider.GetCurrentWeatherAsync(Moscow, CancellationToken.None);
         Result<CurrentWeatherSnapshot> second = await host.CachedProvider.GetCurrentWeatherAsync(Moscow, CancellationToken.None);
 
-        // Значение проходит через сериализатор кэша: координаты с приватным
-        // конструктором и время со смещением локации должны вернуться без потерь.
+        // Значение проходит через сериализатор кэша: координаты с приватным конструктором и время со смещением локации должны вернуться без потерь
         second.Value.Location.ShouldBe(first.Value.Location);
         second.Value.Location.Coordinates.ShouldBe(first.Value.Location.Coordinates);
         second.Value.Location.LocalTime.Offset.ShouldBe(TimeSpan.FromHours(3));
@@ -90,8 +89,7 @@ public sealed class CachedWeatherProviderTests
         Result<CurrentWeatherSnapshot> first = await harness.Provider.GetCurrentWeatherAsync(Moscow, CancellationToken.None);
         Result<CurrentWeatherSnapshot> second = await harness.Provider.GetCurrentWeatherAsync(Moscow, CancellationToken.None);
 
-        // Кэшировать сбой значит показывать пользователю ошибку ещё пять минут
-        // после того, как провайдер починился.
+        // Кэшировать сбой значит показывать пользователю ошибку ещё пять минут после того, как провайдер починился
         first.Error.ShouldBe(WeatherErrors.ProviderUnavailable);
         second.Error.ShouldBe(WeatherErrors.ProviderUnavailable);
         await inner.Received(2).GetCurrentWeatherAsync(Moscow, Arg.Any<CancellationToken>());

@@ -26,8 +26,7 @@ public sealed class GetWeatherDashboardQueryHandler(
             return Result.Failure<WeatherDashboard>(coordinates.Error);
         }
 
-        // ТЗ требует обоих эндпоинтов провайдера. Запрашиваем их параллельно:
-        // последовательные вызовы удвоили бы время отклика экрана без всякой пользы.
+        // ТЗ требует обоих эндпоинтов провайдера - запрашиваем их параллельно: последовательные вызовы удвоили бы время отклика экрана без всякой пользы
         Task<Result<CurrentWeatherSnapshot>> currentTask =
             weatherProvider.GetCurrentWeatherAsync(coordinates.Value, cancellationToken);
         Task<Result<ForecastSnapshot>> forecastTask =
@@ -38,7 +37,7 @@ public sealed class GetWeatherDashboardQueryHandler(
         Result<CurrentWeatherSnapshot> current = await currentTask.ConfigureAwait(false);
         Result<ForecastSnapshot> forecast = await forecastTask.ConfigureAwait(false);
 
-        // Без прогноза экран собрать нечем, поэтому его ошибка — фатальная.
+        // Без прогноза экран собрать нечем, поэтому его ошибка - фатальная
         if (forecast.IsFailure)
         {
             ApplicationLog.ForecastUnavailable(logger, coordinates.Value.ToQueryValue(), forecast.Error.Code);
@@ -47,8 +46,7 @@ public sealed class GetWeatherDashboardQueryHandler(
 
         ForecastSnapshot forecastSnapshot = forecast.Value;
 
-        // Ответ forecast.json содержит и текущую погоду, поэтому падение
-        // отдельного эндпоинта current деградирует мягко, а не роняет экран.
+        // Ответ forecast.json содержит и текущую погоду, поэтому падение отдельного эндпоинта current деградирует мягко, а не роняет экран
         CurrentWeather currentWeather;
         WeatherLocation location;
         if (current.IsSuccess)

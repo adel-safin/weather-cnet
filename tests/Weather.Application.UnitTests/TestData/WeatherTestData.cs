@@ -3,10 +3,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Application.UnitTests.TestData;
 
-/// <summary>
-/// Строители доменных объектов для тестов: скрывают шум конструкторов
-/// и оставляют в самих тестах только то, что относится к проверяемому поведению.
-/// </summary>
+/// <summary>Строители доменных объектов для тестов: скрывают шум конструкторов и оставляют в самих тестах только то, что относится к проверяемому поведению</summary>
 internal static class WeatherTestData
 {
     public static readonly TimeSpan MoscowOffset = TimeSpan.FromHours(3);

@@ -3,10 +3,7 @@ using Weather.Infrastructure.WeatherApi.Contracts;
 
 namespace Weather.Infrastructure.WeatherApi;
 
-/// <summary>
-/// Source-generated контекст сериализации: разбор ответов без рефлексии
-/// и без риска потерять метаданные при тримминге.
-/// </summary>
+/// <summary>Source-generated контекст сериализации: разбор ответов без рефлексии и без риска потерять метаданные при тримминге</summary>
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.SnakeCaseLower,
     PropertyNameCaseInsensitive = true,

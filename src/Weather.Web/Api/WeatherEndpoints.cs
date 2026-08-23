@@ -33,11 +33,7 @@ internal static class WeatherEndpoints
         return builder;
     }
 
-    /// <summary>
-    /// Координаты берутся из конфигурации, а не из запроса: по ТЗ геолокация
-    /// зафиксирована, и открывать её параметром означало бы дать клиенту
-    /// возможность гонять чужой платный ключ по произвольным точкам мира.
-    /// </summary>
+    /// <summary>Координаты берутся из конфигурации, а не из запроса: по ТЗ геолокация зафиксирована, и открывать её параметром означало бы дать клиенту возможность гонять чужой платный ключ по произвольным точкам мира</summary>
     private static async Task<IResult> GetDashboardAsync(
         ISender sender,
         IOptions<WeatherLocationOptions> locationOptions,

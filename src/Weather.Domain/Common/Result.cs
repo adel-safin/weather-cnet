@@ -1,8 +1,6 @@
 namespace Weather.Domain.Common;
 
-/// <summary>
-/// Результат операции без возвращаемого значения.
-/// </summary>
+/// <summary>Результат операции без возвращаемого значения</summary>
 public class Result
 {
     protected Result(bool isSuccess, Error error)
@@ -36,10 +34,7 @@ public class Result
     public static Result<TValue> Failure<TValue>(Error error) => Result<TValue>.FromError(error);
 }
 
-/// <summary>
-/// Результат операции со значением. Обращение к <see cref="Value"/> у неуспешного
-/// результата — программная ошибка, поэтому здесь исключение уместно.
-/// </summary>
+/// <summary>Результат операции со значением - обращение к <see cref="Value"/> у неуспешного результата - программная ошибка, поэтому здесь исключение уместно</summary>
 public sealed class Result<TValue> : Result
 {
     private readonly TValue? _value;
@@ -57,9 +52,7 @@ public sealed class Result<TValue> : Result
 
     public static implicit operator Result<TValue>(TValue value) => FromValue(value);
 
-    /// <summary>
-    /// Преобразует успешное значение, пробрасывая ошибку без изменений.
-    /// </summary>
+    /// <summary>Преобразует успешное значение, пробрасывая ошибку без изменений</summary>
     public Result<TNext> Map<TNext>(Func<TValue, TNext> map)
     {
         ArgumentNullException.ThrowIfNull(map);

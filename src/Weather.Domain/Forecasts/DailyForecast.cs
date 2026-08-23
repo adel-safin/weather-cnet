@@ -2,9 +2,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Domain.Forecasts;
 
-/// <summary>
-/// Прогноз на сутки.
-/// </summary>
+/// <summary>Прогноз на сутки</summary>
 public sealed record DailyForecast(
     DateOnly Date,
     Temperature MinTemperature,

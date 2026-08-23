@@ -2,11 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Weather.Application.Configuration;
 
-/// <summary>
-/// Локация, для которой приложение показывает погоду.
-/// По ТЗ она зафиксирована на Москве, но живёт в конфигурации,
-/// а не в константах кода: смена города не требует пересборки.
-/// </summary>
+/// <summary>Локация, для которой приложение показывает погоду - по ТЗ она зафиксирована на Москве, но живёт в конфигурации, а не в константах кода: смена города не требует пересборки</summary>
 public sealed class WeatherLocationOptions
 {
     public const string SectionName = "Weather:DefaultLocation";

@@ -5,12 +5,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Infrastructure.Caching;
 
-/// <summary>
-/// Координаты создаются только через фабрику с проверкой диапазонов, публичного
-/// конструктора у них нет — значит, штатный разбор System.Text.Json невозможен.
-/// Знание о том, как значение кладётся в кэш, остаётся в инфраструктуре,
-/// а домен не обвешивается атрибутами сериализации.
-/// </summary>
+/// <summary>Координаты создаются только через фабрику с проверкой диапазонов, публичного конструктора у них нет - значит, штатный разбор System.Text.Json невозможен - знание о том, как значение кладётся в кэш, остаётся в инфраструктуре, а домен не обвешивается атрибутами сериализации</summary>
 internal sealed class CoordinatesJsonConverter : JsonConverter<Coordinates>
 {
     private const string LatitudeProperty = "lat";

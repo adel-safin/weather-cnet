@@ -27,11 +27,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Testing">
-    <!--
-      xUnit v2 + VSTest: в .NET 10 SDK интеграция "dotnet test" с Microsoft.Testing.Platform
-      (который несёт xUnit v3) на момент разработки не обнаруживает тесты — хост запускается,
-      но SDK получает пустой список. Классический стек работает без сюрпризов у любого проверяющего.
-    -->
+    <!-- xUnit v2 + VSTest: в .NET 10 SDK интеграция "dotnet test" с Microsoft.Testing.Platform (который несёт xUnit v3) на момент разработки не обнаруживает тесты - хост запускается, но SDK получает пустой список - классический стек работает без сюрпризов у любого проверяющего -->
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />

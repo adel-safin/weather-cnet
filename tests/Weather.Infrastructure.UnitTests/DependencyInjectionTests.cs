@@ -19,7 +19,7 @@ public sealed class DependencyInjectionTests
 
         IWeatherProvider provider = services.GetRequiredService<IWeatherProvider>();
 
-        // Наружу выдаётся кэширующий декоратор, а не сам HTTP-клиент.
+        // Наружу выдаётся кэширующий декоратор, а не сам HTTP-клиент
         provider.ShouldNotBeOfType<WeatherApiClient>();
         provider.GetType().Name.ShouldBe("CachedWeatherProvider");
     }
@@ -43,7 +43,7 @@ public sealed class DependencyInjectionTests
 
         WeatherApiOptions options = services.GetRequiredService<IOptions<WeatherApiOptions>>().Value;
 
-        // В ТЗ адрес указан по http, ключ в открытом канале передавать нельзя.
+        // В ТЗ адрес указан по http, ключ в открытом канале передавать нельзя
         options.BaseAddress.Scheme.ShouldBe("https");
         options.Language.ShouldBe("ru");
     }

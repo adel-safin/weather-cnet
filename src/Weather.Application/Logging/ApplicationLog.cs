@@ -2,10 +2,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Weather.Application.Logging;
 
-/// <summary>
-/// Логи слоя приложения через source-generated LoggerMessage:
-/// нулевые аллокации на отключённом уровне и стабильные EventId для алертов.
-/// </summary>
+/// <summary>Логи слоя приложения через source-generated LoggerMessage: нулевые аллокации на отключённом уровне и стабильные EventId для алертов</summary>
 internal static partial class ApplicationLog
 {
     [LoggerMessage(EventId = 1000, Level = LogLevel.Information, Message = "Обработка запроса {RequestName}")]

@@ -38,8 +38,7 @@ dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
 dotnet_style_null_propagation = true:warning
 dotnet_style_coalesce_expression = true:warning
 
-# Именование: приватные поля экземпляра с подчёркиванием,
-# статические readonly-поля — как константы, в PascalCase
+# Именование: приватные поля экземпляра с подчёркиванием, статические readonly-поля - как константы, в PascalCase
 dotnet_naming_rule.private_constants_pascal.severity = warning
 dotnet_naming_rule.private_constants_pascal.symbols = private_constants
 dotnet_naming_rule.private_constants_pascal.style = pascal_case_style
@@ -69,8 +68,7 @@ dotnet_diagnostic.CA1848.severity = none
 # CA1707: подчёркивания нужны в именах тестов вида Method_Should_Result
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.CA1034.severity = none
-# CA1716: правило про совместимость с VB; Error — устоявшееся имя в Result-паттерне
+# CA1716: правило про совместимость с VB; Error - устоявшееся имя в Result-паттерне
 dotnet_diagnostic.CA1716.severity = none
-# CA1873: даёт ложные срабатывания на source-generated LoggerMessage,
-# которые сами проверяют IsEnabled; дорогие вычисления закрыты явными гардами
+# CA1873: даёт ложные срабатывания на source-generated LoggerMessage, которые сами проверяют IsEnabled; дорогие вычисления закрыты явными гардами
 dotnet_diagnostic.CA1873.severity = suggestion

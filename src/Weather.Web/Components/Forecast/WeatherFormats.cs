@@ -2,10 +2,7 @@ using System.Globalization;
 
 namespace Weather.Web.Components.Forecast;
 
-/// <summary>
-/// Форматирование дат и чисел для интерфейса.
-/// Культура задаётся явно, чтобы вывод не зависел от локали сервера.
-/// </summary>
+/// <summary>Форматирование дат и чисел для интерфейса - культура задаётся явно, чтобы вывод не зависел от локали сервера</summary>
 internal static class WeatherFormats
 {
     public static readonly CultureInfo Culture = CultureInfo.GetCultureInfo("ru-RU");
@@ -34,10 +31,7 @@ internal static class WeatherFormats
         _ => date.ToString("d MMMM", Culture),
     };
 
-    /// <summary>
-    /// Провайдер отдаёт восход и закат в 12-часовом формате ("05:17 AM").
-    /// В русском интерфейсе это выглядит чужеродно и занимает лишнюю строку.
-    /// </summary>
+    /// <summary>Провайдер отдаёт восход и закат в 12-часовом формате ("05:17 AM") - в русском интерфейсе это выглядит чужеродно и занимает лишнюю строку</summary>
     public static string SunTime(string apiTime) =>
         DateTime.TryParseExact(
             apiTime,

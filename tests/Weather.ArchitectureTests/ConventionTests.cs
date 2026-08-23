@@ -8,9 +8,7 @@ using Weather.Infrastructure;
 
 namespace Weather.ArchitectureTests;
 
-/// <summary>
-/// Соглашения, которые обычно живут в головах команды и теряются при росте кода.
-/// </summary>
+/// <summary>Соглашения, которые обычно живут в головах команды и теряются при росте кода</summary>
 public sealed class ConventionTests
 {
     private static readonly Assembly Application = typeof(IWeatherProvider).Assembly;
@@ -24,8 +22,7 @@ public sealed class ConventionTests
             .That()
             .ImplementInterface(typeof(IRequestHandler<,>));
 
-        // Правило имеет смысл, только если под него что-то попадает:
-        // пустой набор типов NetArchTest считает успешным.
+        // Правило имеет смысл, только если под него что-то попадает: пустой набор типов NetArchTest считает успешным
         handlers.GetTypes().ShouldNotBeEmpty();
 
         TestResult result = handlers
@@ -60,8 +57,8 @@ public sealed class ConventionTests
     [Fact]
     public void DomainTypes_AreSealed()
     {
-        // Открытое наследование в домене ломает сравнение по значению у записей.
-        // Result — единственное исключение: Result<T> наследуется от него намеренно.
+        // Открытое наследование в домене ломает сравнение по значению у записей
+        // Result - единственное исключение: Result<T> наследуется от него намеренно
         PredicateList domainClasses = Types.InAssembly(Domain)
             .That()
             .AreClasses()
@@ -80,8 +77,7 @@ public sealed class ConventionTests
     [Fact]
     public void InfrastructureDetails_AreHiddenBehindTheAssemblyBoundary()
     {
-        // Наружу торчат только точка регистрации и настройки:
-        // всё остальное — внутренняя кухня слоя.
+        // Наружу торчат только точка регистрации и настройки: всё остальное - внутренняя кухня слоя
         IEnumerable<string> publicTypes = Types.InAssembly(Infrastructure)
             .That()
             .ArePublic()

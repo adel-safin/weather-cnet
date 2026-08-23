@@ -6,11 +6,7 @@ using Weather.Infrastructure.WeatherApi.Contracts;
 
 namespace Weather.Infrastructure.WeatherApi;
 
-/// <summary>
-/// Перевод контрактов провайдера в доменные модели.
-/// Здесь же чинятся особенности внешнего API: protocol-relative адреса иконок
-/// и отсутствие явного смещения часового пояса во временных метках.
-/// </summary>
+/// <summary>Перевод контрактов провайдера в доменные модели - здесь же чинятся особенности внешнего API: protocol-relative адреса иконок и отсутствие явного смещения часового пояса во временных метках</summary>
 internal static class WeatherApiMapper
 {
     private static readonly string[] LocalTimeFormats = ["yyyy-MM-dd H:mm", "yyyy-MM-dd HH:mm"];
@@ -81,10 +77,8 @@ internal static class WeatherApiMapper
             return Result.Failure<WeatherLocation>(WeatherErrors.InvalidResponse);
         }
 
-        // Провайдер присылает локальное время без смещения ("2026-08-23 10:23")
-        // и тот же момент в виде epoch. Разница между ними и есть смещение локации.
-        // Такой способ не требует базы часовых поясов в контейнере,
-        // в отличие от TimeZoneInfo.FindSystemTimeZoneById(tz_id).
+        // Провайдер присылает локальное время без смещения ("2026-08-23 10:23") и тот же момент в виде epoch - разница между ними и есть смещение локации
+        // Такой способ не требует базы часовых поясов в контейнере, в отличие от TimeZoneInfo.FindSystemTimeZoneById(tz_id)
         DateTimeOffset utcMoment = DateTimeOffset.FromUnixTimeSeconds(dto.LocaltimeEpoch);
 
         if (!TryParseLocalTime(dto.Localtime, out DateTime localNaive))
@@ -163,10 +157,7 @@ internal static class WeatherApiMapper
         BuildIconUri(dto?.Icon),
         dto?.Code ?? 0);
 
-    /// <summary>
-    /// Провайдер отдаёт иконку без схемы ("//cdn.weatherapi.com/..."),
-    /// такой адрес нельзя положить в Uri и отдать браузеру как есть.
-    /// </summary>
+    /// <summary>Провайдер отдаёт иконку без схемы ("//cdn.weatherapi.com/..."), такой адрес нельзя положить в Uri и отдать браузеру как есть</summary>
     private static Uri BuildIconUri(string? icon)
     {
         if (string.IsNullOrWhiteSpace(icon))

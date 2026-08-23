@@ -2,10 +2,7 @@ using Weather.Domain.Common;
 
 namespace Weather.Domain.Forecasts;
 
-/// <summary>
-/// Каталог ошибок погодного сценария. Централизованный список кодов
-/// избавляет от магических строк в обработчиках и упрощает тесты.
-/// </summary>
+/// <summary>Каталог ошибок погодного сценария - централизованный список кодов избавляет от магических строк в обработчиках и упрощает тесты</summary>
 public static class WeatherErrors
 {
     public static readonly Error InvalidApiKey = Error.Unauthorized(

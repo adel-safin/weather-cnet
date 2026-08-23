@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- HybridCache в .NET 10 всё ещё помечен [Experimental], хотя GA с .NET 9. -->
+    <!-- HybridCache в .NET 10 всё ещё помечен [Experimental], хотя GA с .NET 9 -->
     <NoWarn>$(NoWarn);EXTEXP0018</NoWarn>
   </PropertyGroup>
 

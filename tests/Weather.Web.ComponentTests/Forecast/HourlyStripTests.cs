@@ -39,7 +39,7 @@ public sealed class HourlyStripTests : BunitContext
 
         IReadOnlyList<string> times = [.. strip.FindAll(".hour__time").Select(node => node.TextContent)];
 
-        // Первый час — текущий, дальше идут 23:00 и полночь следующего дня.
+        // Первый час - текущий, дальше идут 23:00 и полночь следующего дня
         times[0].ShouldBe("Сейчас");
         times[1].ShouldBe("23:00");
         times[2].ShouldBe("00:00");

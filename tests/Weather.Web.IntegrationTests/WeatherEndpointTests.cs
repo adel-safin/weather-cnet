@@ -48,8 +48,7 @@ public sealed class WeatherEndpointTests : IDisposable
         DateTimeOffset localNow = dashboard.Location.LocalTime;
         DateOnly today = DateOnly.FromDateTime(localNow.Date);
 
-        // Локальное время в фикстуре — 11:08, значит сегодня остаётся 13 часов
-        // (текущий включительно) плюс 24 часа следующего дня.
+        // Локальное время в фикстуре - 11:08, значит сегодня остаётся 13 часов (текущий включительно) плюс 24 часа следующего дня
         dashboard.Hourly.Count.ShouldBe(37);
         dashboard.Hourly[0].Time.Hour.ShouldBe(11);
         DateOnly.FromDateTime(dashboard.Hourly[0].Time.Date).ShouldBe(today);
@@ -102,8 +101,7 @@ public sealed class WeatherEndpointTests : IDisposable
 
         using HttpResponseMessage response = await client.GetAsync(new Uri("/api/weather/dashboard", UriKind.Relative));
 
-        // Ответ forecast.json содержит и текущую погоду, поэтому падение
-        // одного эндпоинта не должно оставлять пользователя без экрана.
+        // Ответ forecast.json содержит и текущую погоду, поэтому падение одного эндпоинта не должно оставлять пользователя без экрана
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 

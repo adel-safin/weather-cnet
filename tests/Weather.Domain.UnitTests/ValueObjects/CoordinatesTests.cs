@@ -36,11 +36,7 @@ public sealed class CoordinatesTests
         result.Error.Type.ShouldBe(ErrorType.Validation);
     }
 
-    /// <summary>
-    /// Регрессионный тест: под русской локалью разделителем дробной части
-    /// является запятая, и наивное форматирование превратило бы
-    /// "55.7558,37.6173" в "55,7558,37,6173" — внешний API такой запрос отвергнет.
-    /// </summary>
+    /// <summary>Регрессионный тест: под русской локалью разделителем дробной части является запятая, и наивное форматирование превратило бы "55.7558,37.6173" в "55,7558,37,6173" - внешний API такой запрос отвергнет</summary>
     [Fact]
     public void ToQueryValue_UnderRussianCulture_UsesInvariantSeparator()
     {

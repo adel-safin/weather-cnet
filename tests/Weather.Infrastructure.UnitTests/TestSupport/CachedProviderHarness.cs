@@ -10,10 +10,7 @@ using Weather.Infrastructure.WeatherApi;
 
 namespace Weather.Infrastructure.UnitTests.TestSupport;
 
-/// <summary>
-/// Кэширующий декоратор поверх подставного порта: позволяет проверять поведение
-/// кэша с настоящим <see cref="HybridCache"/>, но без похода в сеть.
-/// </summary>
+/// <summary>Кэширующий декоратор поверх подставного порта: позволяет проверять поведение кэша с настоящим <see cref="HybridCache"/>, но без похода в сеть</summary>
 internal sealed class CachedProviderHarness : IAsyncDisposable
 {
     private readonly ServiceProvider _services;

@@ -10,11 +10,7 @@ using Weather.Infrastructure.WeatherApi;
 
 namespace Weather.Infrastructure.Caching;
 
-/// <summary>
-/// Декоратор порта: снимает нагрузку с внешнего API и защищает от cache stampede.
-/// Провайдер обновляет данные раз в 15 минут, поэтому более частые походы наружу
-/// тратят лимит бесплатного ключа, ничего не давая пользователю.
-/// </summary>
+/// <summary>Декоратор порта: снимает нагрузку с внешнего API и защищает от cache stampede - провайдер обновляет данные раз в 15 минут, поэтому более частые походы наружу тратят лимит бесплатного ключа, ничего не давая пользователю</summary>
 internal sealed class CachedWeatherProvider(
     IWeatherProvider inner,
     HybridCache cache,

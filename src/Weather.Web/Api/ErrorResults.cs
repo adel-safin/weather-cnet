@@ -3,11 +3,7 @@ using Weather.Domain.Common;
 
 namespace Weather.Web.Api;
 
-/// <summary>
-/// Единое место, где доменная ошибка превращается в HTTP-ответ.
-/// Категория ошибки определяет статус, поэтому новый код ошибки
-/// не требует правок в эндпоинтах.
-/// </summary>
+/// <summary>Единое место, где доменная ошибка превращается в HTTP-ответ - категория ошибки определяет статус, поэтому новый код ошибки не требует правок в эндпоинтах</summary>
 internal static class ErrorResults
 {
     public static IResult ToProblem(this Error error)

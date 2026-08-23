@@ -24,7 +24,7 @@ public sealed class CurrentWeatherCardTests : BunitContext
     {
         IRenderedComponent<CurrentWeatherCard> card = RenderCard();
 
-        // 1009 гПа — это 757 мм рт. ст.; миллибары российскому пользователю ни о чём не говорят.
+        // 1009 гПа - это 757 мм рт. ст.; миллибары российскому пользователю ни о чём не говорят
         card.Markup.ShouldContain("757 мм рт. ст.");
     }
 

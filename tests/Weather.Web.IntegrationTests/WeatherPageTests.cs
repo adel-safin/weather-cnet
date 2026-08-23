@@ -4,10 +4,7 @@ using Weather.Web.IntegrationTests.TestSupport;
 
 namespace Weather.Web.IntegrationTests;
 
-/// <summary>
-/// Проверки страницы на стороне сервера: интересует предварительный рендер,
-/// то есть то, что пользователь видит до подключения интерактивного канала.
-/// </summary>
+/// <summary>Проверки страницы на стороне сервера: интересует предварительный рендер, то есть то, что пользователь видит до подключения интерактивного канала</summary>
 public sealed class WeatherPageTests : IDisposable
 {
     private readonly WeatherAppFactory _factory = new();

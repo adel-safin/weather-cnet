@@ -5,15 +5,12 @@ using Weather.Domain.Common;
 
 namespace Weather.Application.Behaviors;
 
-/// <summary>
-/// Единая точка логирования всех запросов: имя, исход, код ошибки.
-/// Избавляет обработчики от дублирующего кода логирования.
-/// </summary>
+/// <summary>Единая точка логирования всех запросов: имя, исход, код ошибки - избавляет обработчики от дублирующего кода логирования</summary>
 public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    // Статическое поле generic-класса вычисляется один раз на каждую специализацию.
+    // Статическое поле generic-класса вычисляется один раз на каждую специализацию
     private static readonly string RequestName = typeof(TRequest).Name;
 
     public async Task<TResponse> Handle(

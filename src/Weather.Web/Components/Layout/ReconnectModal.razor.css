@@ -1,8 +1,4 @@
-/*
-    Классы состояний (components-reconnect-*) выставляет клиентский код Blazor,
-    поэтому правила видимости оставлены в исходном виде из шаблона.
-    Изменено только оформление: диалог использует ту же палитру, что и остальной экран.
-*/
+/* Классы состояний (components-reconnect-*) выставляет клиентский код Blazor, поэтому правила видимости оставлены в исходном виде из шаблона - изменено только оформление: диалог использует ту же палитру, что и остальной экран */
 
 .components-reconnect-first-attempt-visible,
 .components-reconnect-repeated-attempt-visible,
@@ -26,7 +22,7 @@
 }
 
 #components-reconnect-modal {
-    /* Переменные темы объявлены в app.css на :root и доступны изолированному стилю. */
+    /* Переменные темы объявлены в app.css на :root и доступны изолированному стилю */
     background: var(--surface-strong, #ffffff);
     color: var(--text, #0f172a);
     width: min(22rem, calc(100vw - 2rem));

@@ -4,12 +4,7 @@ using MediatR;
 
 namespace Weather.Application.Behaviors;
 
-/// <summary>
-/// Прогоняет все зарегистрированные валидаторы запроса до обработчика.
-/// Невалидный запрос — это дефект вызывающей стороны, а не штатный исход
-/// сценария, поэтому здесь исключение уместно: внешний слой превратит его
-/// в 400 с ProblemDetails.
-/// </summary>
+/// <summary>Прогоняет все зарегистрированные валидаторы запроса до обработчика - невалидный запрос - это дефект вызывающей стороны, а не штатный исход сценария, поэтому здесь исключение уместно: внешний слой превратит его в 400 с ProblemDetails</summary>
 public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull

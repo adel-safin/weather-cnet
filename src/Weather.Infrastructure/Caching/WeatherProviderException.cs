@@ -2,12 +2,7 @@ using Weather.Domain.Common;
 
 namespace Weather.Infrastructure.Caching;
 
-/// <summary>
-/// Транспорт доменной ошибки через границу фабрики <see cref="Microsoft.Extensions.Caching.Hybrid.HybridCache"/>.
-/// Фабрика кэша либо возвращает значение (и оно сохраняется), либо бросает исключение —
-/// третьего варианта в её API нет. Исключение здесь гарантирует, что неудачный ответ
-/// провайдера не залипнет в кэше на весь TTL.
-/// </summary>
+/// <summary>Транспорт доменной ошибки через границу фабрики <see cref="Microsoft.Extensions.Caching.Hybrid.HybridCache"/> - фабрика кэша либо возвращает значение (и оно сохраняется), либо бросает исключение - третьего варианта в её API нет - исключение здесь гарантирует, что неудачный ответ провайдера не залипнет в кэше на весь TTL</summary>
 internal sealed class WeatherProviderException : Exception
 {
     public WeatherProviderException(Error error)

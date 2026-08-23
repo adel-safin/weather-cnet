@@ -15,8 +15,7 @@ public sealed class GetWeatherDashboardQueryValidator : AbstractValidator<GetWea
             .InclusiveBetween(Coordinates.MinLongitude, Coordinates.MaxLongitude)
             .WithMessage("Долгота должна быть в диапазоне от -180 до 180.");
 
-        // Провайдер отдаёт почасовой прогноз максимум на 14 дней,
-        // экрану достаточно трёх суток из ТЗ.
+        // Провайдер отдаёт почасовой прогноз максимум на 14 дней, экрану достаточно трёх суток из ТЗ
         RuleFor(query => query.ForecastDays)
             .InclusiveBetween(1, 14)
             .WithMessage("Глубина прогноза должна быть от 1 до 14 дней.");

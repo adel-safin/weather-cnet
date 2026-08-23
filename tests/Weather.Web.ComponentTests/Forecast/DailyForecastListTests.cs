@@ -41,7 +41,7 @@ public sealed class DailyForecastListTests : BunitContext
 
         IElement sun = list.FindAll(".day")[0].QuerySelectorAll("dd")[^1];
 
-        // Провайдер отдаёт "05:17 AM"/"07:47 PM", читателю на русском нужен 24-часовой формат.
+        // Провайдер отдаёт "05:17 AM"/"07:47 PM", читателю на русском нужен 24-часовой формат
         sun.TextContent.ShouldBe("05:17 — 19:47");
     }
 

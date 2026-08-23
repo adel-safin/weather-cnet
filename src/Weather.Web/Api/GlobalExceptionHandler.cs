@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Weather.Web.Api;
 
-/// <summary>
-/// Превращает необработанные исключения в ProblemDetails.
-/// Наружу не утекают ни стек, ни внутренние сообщения.
-/// </summary>
+/// <summary>Превращает необработанные исключения в ProblemDetails - наружу не утекают ни стек, ни внутренние сообщения</summary>
 internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
@@ -17,8 +14,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
     {
         ArgumentNullException.ThrowIfNull(httpContext);
 
-        // Blazor-страницы обрабатываются собственным обработчиком ошибок,
-        // здесь остаётся только HTTP API.
+        // Blazor-страницы обрабатываются собственным обработчиком ошибок, здесь остаётся только HTTP API
         if (!httpContext.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
         {
             return false;

@@ -17,7 +17,7 @@
   <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <!-- xUnit требует public-типы тестов; правило CA1515 конфликтует с этим. -->
+    <!-- xUnit требует public-типы тестов; правило CA1515 конфликтует с этим -->
     <NoWarn>$(NoWarn);CA1515;CA1861;CA2007</NoWarn>
   </PropertyGroup>
 

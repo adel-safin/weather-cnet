@@ -8,10 +8,7 @@ using Weather.Domain.ValueObjects;
 
 namespace Weather.Web.Health;
 
-/// <summary>
-/// Проверяет доступность внешнего провайдера. Запрос идёт через кэширующий
-/// декоратор, поэтому частые опросы health-эндпоинта не расходуют квоту ключа.
-/// </summary>
+/// <summary>Проверяет доступность внешнего провайдера - запрос идёт через кэширующий декоратор, поэтому частые опросы health-эндпоинта не расходуют квоту ключа</summary>
 internal sealed class WeatherProviderHealthCheck(
     IWeatherProvider weatherProvider,
     IOptions<WeatherLocationOptions> locationOptions) : IHealthCheck

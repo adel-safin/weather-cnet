@@ -1,9 +1,6 @@
 namespace Weather.Web.Api.Contracts;
 
-/*
- * Публичный HTTP-контракт. Отделён от доменных моделей намеренно:
- * изменение внутренней модели не должно ломать внешних потребителей API.
- */
+/* Публичный HTTP-контракт - отделён от доменных моделей намеренно: изменение внутренней модели не должно ломать внешних потребителей API */
 
 public sealed record WeatherDashboardResponse(
     LocationResponse Location,

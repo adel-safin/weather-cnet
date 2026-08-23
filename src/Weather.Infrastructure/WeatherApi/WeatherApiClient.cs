@@ -12,11 +12,7 @@ using Weather.Infrastructure.WeatherApi.Contracts;
 
 namespace Weather.Infrastructure.WeatherApi;
 
-/// <summary>
-/// Реализация порта поверх HTTP API weatherapi.com.
-/// Типизированный клиент: политики устойчивости и таймауты навешиваются
-/// при регистрации в DI, а не внутри этого класса.
-/// </summary>
+/// <summary>Реализация порта поверх HTTP API weatherapi.com - типизированный клиент: политики устойчивости и таймауты навешиваются при регистрации в DI, а не внутри этого класса</summary>
 internal sealed class WeatherApiClient(
     HttpClient httpClient,
     IOptions<WeatherApiOptions> options,
@@ -86,7 +82,7 @@ internal sealed class WeatherApiClient(
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            // Пользователь ушёл со страницы или закрыл вкладку — это не сбой провайдера.
+            // Пользователь ушёл со страницы или закрыл вкладку - это не сбой провайдера
             throw;
         }
         catch (OperationCanceledException exception)
@@ -106,10 +102,7 @@ internal sealed class WeatherApiClient(
         }
     }
 
-    /// <summary>
-    /// Переводит HTTP-статус и код провайдера в доменную ошибку.
-    /// Коды взяты из документации weatherapi.com.
-    /// </summary>
+    /// <summary>Переводит HTTP-статус и код провайдера в доменную ошибку - коды взяты из документации weatherapi.com</summary>
     private async Task<Error> MapFailureAsync(
         HttpResponseMessage response,
         string endpoint,
@@ -131,7 +124,7 @@ internal sealed class WeatherApiClient(
         }
         catch (JsonException)
         {
-            // Тело ошибки не разобралось — решение примем по HTTP-статусу.
+            // Тело ошибки не разобралось - решение примем по HTTP-статусу
         }
 
         InfrastructureLog.ProviderReturnedError(
