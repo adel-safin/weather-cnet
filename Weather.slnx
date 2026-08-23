@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Weather.Application/Weather.Application.csproj" />
+    <Project Path="src/Weather.Domain/Weather.Domain.csproj" />
+    <Project Path="src/Weather.Infrastructure/Weather.Infrastructure.csproj" />
+    <Project Path="src/Weather.Web/Weather.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Weather.Application.UnitTests/Weather.Application.UnitTests.csproj" />
+    <Project Path="tests/Weather.ArchitectureTests/Weather.ArchitectureTests.csproj" />
+    <Project Path="tests/Weather.Domain.UnitTests/Weather.Domain.UnitTests.csproj" />
+    <Project Path="tests/Weather.Infrastructure.UnitTests/Weather.Infrastructure.UnitTests.csproj" />
+    <Project Path="tests/Weather.Web.ComponentTests/Weather.Web.ComponentTests.csproj" />
+    <Project Path="tests/Weather.Web.IntegrationTests/Weather.Web.IntegrationTests.csproj" />
+  </Folder>
+</Solution>
