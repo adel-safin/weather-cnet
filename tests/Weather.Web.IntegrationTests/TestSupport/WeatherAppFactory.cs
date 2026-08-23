@@ -1,7 +1,9 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using WireMock.Server;
 
 namespace Weather.Web.IntegrationTests.TestSupport;
@@ -9,6 +11,10 @@ namespace Weather.Web.IntegrationTests.TestSupport;
 /// <summary>Поднимает приложение целиком и заворачивает его на подставной weatherapi.com - подменяется только адрес внешнего сервиса: маршруты, обработчики ошибок и конвейер MediatR тестируются ровно те, что работают в продакшене</summary>
 internal sealed class WeatherAppFactory : WebApplicationFactory<Program>
 {
+    private readonly TimeProvider? _timeProvider;
+
+    public WeatherAppFactory(TimeProvider? timeProvider = null) => _timeProvider = timeProvider;
+
     public WireMockServer Provider { get; } = WireMockServer.Start();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -35,6 +41,15 @@ internal sealed class WeatherAppFactory : WebApplicationFactory<Program>
         foreach ((string key, string? value) in settings)
         {
             builder.UseSetting(key, value);
+        }
+
+        if (_timeProvider is not null)
+        {
+            builder.ConfigureTestServices(services =>
+            {
+                services.RemoveAll<TimeProvider>();
+                services.AddSingleton(_timeProvider);
+            });
         }
     }
 

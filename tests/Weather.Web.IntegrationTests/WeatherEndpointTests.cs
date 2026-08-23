@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.Extensions.Time.Testing;
 using Shouldly;
 using Weather.Web.Api.Contracts;
 using Weather.Web.IntegrationTests.TestSupport;
@@ -38,8 +39,10 @@ public sealed class WeatherEndpointTests : IDisposable
     [Fact]
     public async Task Dashboard_HourlyWindow_CoversRestOfTodayAndAllOfTomorrow()
     {
-        _factory.Provider.StubHappyPath();
-        using HttpClient client = _factory.CreateClient();
+        // localtime_epoch фикстуры: окно часов считается по TimeProvider, поэтому без заморозки CI в другой час суток меняет число слотов
+        using WeatherAppFactory factory = new(new FakeTimeProvider(DateTimeOffset.FromUnixTimeSeconds(1_787_472_482)));
+        factory.Provider.StubHappyPath();
+        using HttpClient client = factory.CreateClient();
 
         WeatherDashboardResponse dashboard = (await client.GetFromJsonAsync<WeatherDashboardResponse>(
             new Uri("/api/weather/dashboard", UriKind.Relative),
@@ -48,7 +51,7 @@ public sealed class WeatherEndpointTests : IDisposable
         DateTimeOffset localNow = dashboard.Location.LocalTime;
         DateOnly today = DateOnly.FromDateTime(localNow.Date);
 
-        // Локальное время в фикстуре - 11:08, значит сегодня остаётся 13 часов (текущий включительно) плюс 24 часа следующего дня
+        // Локальное время в фикстуре - 11:08, TimeProvider в фабрике заморожен на тот же момент: сегодня остаётся 13 часов (текущий включительно) плюс 24 часа следующего дня
         dashboard.Hourly.Count.ShouldBe(37);
         dashboard.Hourly[0].Time.Hour.ShouldBe(11);
         DateOnly.FromDateTime(dashboard.Hourly[0].Time.Date).ShouldBe(today);
