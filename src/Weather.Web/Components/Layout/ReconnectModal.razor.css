@@ -1,3 +1,9 @@
+/*
+    Классы состояний (components-reconnect-*) выставляет клиентский код Blazor,
+    поэтому правила видимости оставлены в исходном виде из шаблона.
+    Изменено только оформление: диалог использует ту же палитру, что и остальной экран.
+*/
+
 .components-reconnect-first-attempt-visible,
 .components-reconnect-repeated-attempt-visible,
 .components-reconnect-failed-visible,
@@ -19,29 +25,31 @@
     display: block;
 }
 
-
 #components-reconnect-modal {
-    background-color: white;
-    width: 20rem;
+    /* Переменные темы объявлены в app.css на :root и доступны изолированному стилю. */
+    background: var(--surface-strong, #ffffff);
+    color: var(--text, #0f172a);
+    width: min(22rem, calc(100vw - 2rem));
     margin: 20vh auto;
     padding: 2rem;
-    border: 0;
-    border-radius: 0.5rem;
-    box-shadow: 0 3px 6px 2px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--surface-border, rgba(15, 23, 42, 0.08));
+    border-radius: var(--radius-lg, 22px);
+    box-shadow: var(--shadow, 0 18px 40px -24px rgba(15, 23, 42, 0.45));
+    font: inherit;
     opacity: 0;
     transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
     animation: components-reconnect-modal-fadeOutOpacity 0.5s both;
-    &[open]
+}
 
-{
-    animation: components-reconnect-modal-slideUp 1.5s cubic-bezier(.05, .89, .25, 1.02) 0.3s, components-reconnect-modal-fadeInOpacity 0.5s ease-in-out 0.3s;
+#components-reconnect-modal[open] {
+    animation: components-reconnect-modal-slideUp 1.5s cubic-bezier(.05, .89, .25, 1.02) 0.3s,
+               components-reconnect-modal-fadeInOpacity 0.5s ease-in-out 0.3s;
     animation-fill-mode: both;
 }
 
-}
-
 #components-reconnect-modal::backdrop {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(2, 6, 23, 0.55);
+    backdrop-filter: blur(4px);
     animation: components-reconnect-modal-fadeInOpacity 0.5s ease-in-out;
     opacity: 1;
 }
@@ -86,72 +94,94 @@
 #components-reconnect-modal p {
     margin: 0;
     text-align: center;
+    line-height: 1.5;
+    color: var(--text-muted, #5b6b85);
 }
 
 #components-reconnect-modal button {
     border: 0;
-    background-color: #6b9ed2;
-    color: white;
-    padding: 4px 24px;
-    border-radius: 4px;
+    border-radius: 999px;
+    background-color: var(--accent, #2563eb);
+    color: var(--accent-contrast, #ffffff);
+    padding: 0.6rem 1.35rem;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 120ms ease, filter 120ms ease;
 }
 
-    #components-reconnect-modal button:hover {
-        background-color: #3b6ea2;
-    }
+#components-reconnect-modal button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
 
-    #components-reconnect-modal button:active {
-        background-color: #6b9ed2;
-    }
+#components-reconnect-modal button:active {
+    transform: none;
+}
+
+#components-reconnect-modal button:focus-visible {
+    outline: 2px solid var(--accent, #2563eb);
+    outline-offset: 3px;
+}
 
 .components-rejoining-animation {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
 }
 
-    .components-rejoining-animation div {
-        position: absolute;
-        border: 3px solid #0087ff;
-        opacity: 1;
-        border-radius: 50%;
-        animation: components-rejoining-animation 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-    }
+.components-rejoining-animation div {
+    position: absolute;
+    border: 3px solid var(--accent, #2563eb);
+    opacity: 1;
+    border-radius: 50%;
+    animation: components-rejoining-animation 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
 
-        .components-rejoining-animation div:nth-child(2) {
-            animation-delay: -0.5s;
-        }
+.components-rejoining-animation div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #components-reconnect-modal,
+    #components-reconnect-modal[open],
+    #components-reconnect-modal::backdrop,
+    .components-rejoining-animation div {
+        animation-duration: 0.01ms;
+        animation-iteration-count: 1;
+    }
+}
 
 @keyframes components-rejoining-animation {
     0% {
-        top: 40px;
-        left: 40px;
+        top: 36px;
+        left: 36px;
         width: 0;
         height: 0;
         opacity: 0;
     }
 
     4.9% {
-        top: 40px;
-        left: 40px;
+        top: 36px;
+        left: 36px;
         width: 0;
         height: 0;
         opacity: 0;
     }
 
     5% {
-        top: 40px;
-        left: 40px;
+        top: 36px;
+        left: 36px;
         width: 0;
         height: 0;
         opacity: 1;
     }
 
     100% {
-        top: 0px;
-        left: 0px;
-        width: 80px;
-        height: 80px;
+        top: 0;
+        left: 0;
+        width: 72px;
+        height: 72px;
         opacity: 0;
     }
 }
