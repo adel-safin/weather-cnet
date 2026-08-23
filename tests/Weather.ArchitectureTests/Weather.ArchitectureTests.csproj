@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="NetArchTest.Rules" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Weather.Domain\Weather.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Weather.Application\Weather.Application.csproj" />
+    <ProjectReference Include="..\..\src\Weather.Infrastructure\Weather.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Weather.Web\Weather.Web.csproj" />
+  </ItemGroup>
+
+</Project>
