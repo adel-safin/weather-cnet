@@ -1,0 +1,55 @@
+@using Weather.Web.Api.Contracts
+
+<section class="current-card @(Current.IsDay ? "current-card--day" : "current-card--night")" aria-label="Текущая погода">
+    <div class="current-card__main">
+        <div class="current-card__headline">
+            <img class="current-card__icon"
+                 src="@Current.Condition.IconUrl"
+                 alt="@Current.Condition.Text"
+                 width="96"
+                 height="96" />
+            <div>
+                <p class="current-card__temperature">@WeatherFormats.Temperature(Current.TemperatureC)</p>
+                <p class="current-card__condition">@Current.Condition.Text</p>
+                <p class="current-card__feels">Ощущается как @WeatherFormats.Temperature(Current.FeelsLikeC)</p>
+            </div>
+        </div>
+
+        <dl class="current-card__metrics">
+            <div class="metric">
+                <dt>Ветер</dt>
+                <dd>@WeatherFormats.Number(Current.WindKph) км/ч, @WeatherFormats.WindDirection(Current.WindDirection)</dd>
+            </div>
+            <div class="metric">
+                <dt>Влажность</dt>
+                <dd>@Current.HumidityPercent%</dd>
+            </div>
+            <div class="metric">
+                <dt>Давление</dt>
+                <dd>@WeatherFormats.Number(Current.PressureMb * 0.750062) мм рт. ст.</dd>
+            </div>
+            <div class="metric">
+                <dt>Облачность</dt>
+                <dd>@Current.CloudPercent%</dd>
+            </div>
+            <div class="metric">
+                <dt>Видимость</dt>
+                <dd>@WeatherFormats.Number(Current.VisibilityKm) км</dd>
+            </div>
+            <div class="metric">
+                <dt>УФ-индекс</dt>
+                <dd>@WeatherFormats.Number(Current.UvIndex, 1) — @WeatherFormats.UvDescription(Current.UvIndex)</dd>
+            </div>
+        </dl>
+    </div>
+
+    <p class="current-card__updated">
+        Обновлено в @WeatherFormats.Hour(Current.ObservedAt)
+    </p>
+</section>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required CurrentWeatherResponse Current { get; set; }
+}

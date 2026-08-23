@@ -1,0 +1,55 @@
+@using Weather.Web.Api.Contracts
+
+<section class="hourly" aria-label="Почасовой прогноз">
+    <header class="section-header">
+        <h2>По часам</h2>
+        <p class="section-header__hint">Оставшиеся часы сегодня и весь следующий день</p>
+    </header>
+
+    <div class="hourly__scroller" role="list">
+        @foreach (IGrouping<DateOnly, HourlyForecastResponse> group in GroupedHours)
+        {
+            <div class="hourly__group" role="listitem">
+                <p class="hourly__group-title">@WeatherFormats.HourGroupHeader(group.Key, Today)</p>
+                <div class="hourly__items">
+                    @foreach (HourlyForecastResponse hour in group)
+                    {
+                        <article class="hour @(IsCurrentHour(hour) ? "hour--now" : null)">
+                            <p class="hour__time">@(IsCurrentHour(hour) ? "Сейчас" : WeatherFormats.Hour(hour.Time))</p>
+                            <img class="hour__icon"
+                                 src="@hour.Condition.IconUrl"
+                                 alt="@hour.Condition.Text"
+                                 title="@hour.Condition.Text"
+                                 width="48"
+                                 height="48"
+                                 loading="lazy" />
+                            <p class="hour__temperature">@WeatherFormats.Temperature(hour.TemperatureC)</p>
+                            <p class="hour__precipitation @(hour.ChanceOfPrecipitationPercent >= 30 ? "hour__precipitation--likely" : null)">
+                                @hour.ChanceOfPrecipitationPercent%
+                            </p>
+                        </article>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required IReadOnlyList<HourlyForecastResponse> Hours { get; set; }
+
+    /// <summary>Локальное время локации: по нему определяются группы и текущий час.</summary>
+    [Parameter]
+    [EditorRequired]
+    public required DateTimeOffset LocalNow { get; set; }
+
+    private DateOnly Today => DateOnly.FromDateTime(LocalNow.Date);
+
+    private IEnumerable<IGrouping<DateOnly, HourlyForecastResponse>> GroupedHours =>
+        Hours.GroupBy(hour => DateOnly.FromDateTime(hour.Time.Date));
+
+    private bool IsCurrentHour(HourlyForecastResponse hour) =>
+        hour.Time.Hour == LocalNow.Hour && DateOnly.FromDateTime(hour.Time.Date) == Today;
+}

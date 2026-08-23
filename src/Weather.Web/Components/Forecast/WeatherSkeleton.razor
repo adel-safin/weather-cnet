@@ -1,0 +1,19 @@
+<div class="skeleton" role="status" aria-live="polite" aria-busy="true">
+    <span class="visually-hidden">Загружаем погоду…</span>
+
+    <div class="skeleton__hero shimmer"></div>
+
+    <div class="skeleton__row">
+        @for (int index = 0; index < 8; index++)
+        {
+            <div class="skeleton__hour shimmer"></div>
+        }
+    </div>
+
+    <div class="skeleton__days">
+        @for (int index = 0; index < 3; index++)
+        {
+            <div class="skeleton__day shimmer"></div>
+        }
+    </div>
+</div>

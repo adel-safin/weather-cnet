@@ -1,0 +1,63 @@
+@using Weather.Web.Api.Contracts
+
+<section class="daily" aria-label="Прогноз на три дня">
+    <header class="section-header">
+        <h2>На 3 дня</h2>
+    </header>
+
+    <div class="daily__grid">
+        @foreach (DailyForecastResponse day in Days)
+        {
+            <article class="day">
+                <header class="day__header">
+                    <p class="day__title">@WeatherFormats.DayHeader(day.Date, Today)</p>
+                    <p class="day__subtitle">@WeatherFormats.DaySubtitle(day.Date)</p>
+                </header>
+
+                <div class="day__body">
+                    <img class="day__icon"
+                         src="@day.Condition.IconUrl"
+                         alt="@day.Condition.Text"
+                         width="64"
+                         height="64"
+                         loading="lazy" />
+                    <div class="day__temperatures">
+                        <span class="day__max">@WeatherFormats.Temperature(day.MaxTemperatureC)</span>
+                        <span class="day__min">@WeatherFormats.Temperature(day.MinTemperatureC)</span>
+                    </div>
+                </div>
+
+                <p class="day__condition">@day.Condition.Text</p>
+
+                <dl class="day__metrics">
+                    <div class="metric metric--compact">
+                        <dt>Осадки</dt>
+                        <dd>@Math.Max(day.ChanceOfRainPercent, day.ChanceOfSnowPercent)%</dd>
+                    </div>
+                    <div class="metric metric--compact">
+                        <dt>Ветер</dt>
+                        <dd>@WeatherFormats.Number(day.MaxWindKph) км/ч</dd>
+                    </div>
+                    <div class="metric metric--compact">
+                        <dt>Влажность</dt>
+                        <dd>@day.AverageHumidityPercent%</dd>
+                    </div>
+                    <div class="metric metric--compact">
+                        <dt>Солнце</dt>
+                        <dd>@WeatherFormats.SunTime(day.Sunrise) — @WeatherFormats.SunTime(day.Sunset)</dd>
+                    </div>
+                </dl>
+            </article>
+        }
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required IReadOnlyList<DailyForecastResponse> Days { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required DateOnly Today { get; set; }
+}

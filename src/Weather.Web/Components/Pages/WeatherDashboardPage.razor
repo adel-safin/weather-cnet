@@ -1,0 +1,139 @@
+@page "/"
+@rendermode InteractiveServer
+
+@using MediatR
+@using Microsoft.Extensions.Options
+@using Weather.Application.Configuration
+@using Weather.Application.Forecasts.GetWeatherDashboard
+@using Weather.Domain.Common
+@using Weather.Domain.Forecasts
+@using Weather.Web.Api
+@using Weather.Web.Api.Contracts
+@using Weather.Web.Components.Forecast
+
+@implements IDisposable
+
+@inject ISender Sender
+@inject IOptions<WeatherLocationOptions> LocationOptions
+
+<PageTitle>Погода — @LocationName</PageTitle>
+
+<main class="page">
+    <header class="page__header">
+        <div>
+            <p class="page__eyebrow">Прогноз погоды</p>
+            <h1 class="page__title">@LocationName</h1>
+            @if (Dashboard is not null)
+            {
+                <p class="page__subtitle">
+                    @Dashboard.Location.Country, местное время @WeatherFormats.Hour(Dashboard.Location.LocalTime)
+                </p>
+            }
+        </div>
+
+        <button type="button"
+                class="button button--ghost"
+                disabled="@_isLoading"
+                @onclick="ReloadAsync"
+                aria-label="Обновить данные о погоде">
+            @(_isLoading ? "Обновляем…" : "Обновить")
+        </button>
+    </header>
+
+    @if (_isLoading && Dashboard is null)
+    {
+        <WeatherSkeleton />
+    }
+    else if (ErrorMessage is not null)
+    {
+        <ErrorPanel Message="@ErrorMessage" IsRetrying="_isLoading" OnRetry="ReloadAsync" />
+    }
+    else if (Dashboard is not null)
+    {
+        <div class="page__content @(_isLoading ? "page__content--refreshing" : null)">
+            <CurrentWeatherCard Current="Dashboard.Current" />
+            <HourlyStrip Hours="Dashboard.Hourly" LocalNow="Dashboard.Location.LocalTime" />
+            <DailyForecastList Days="Dashboard.Daily" Today="DateOnly.FromDateTime(Dashboard.Location.LocalTime.Date)" />
+        </div>
+    }
+</main>
+
+@code {
+    private readonly CancellationTokenSource _cancellation = new();
+
+    private bool _isLoading;
+
+    /// <summary>
+    /// Состояние переживает переход от предварительного рендера к интерактивному.
+    /// Без этого OnInitializedAsync отработал бы дважды и сходил бы к провайдеру
+    /// два раза на каждое открытие страницы.
+    /// </summary>
+    [PersistentState]
+    public WeatherDashboardResponse? Dashboard { get; set; }
+
+    [PersistentState]
+    public string? ErrorMessage { get; set; }
+
+    private string LocationName => Dashboard?.Location.Name ?? LocationOptions.Value.Name;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Dashboard is not null || ErrorMessage is not null)
+        {
+            return;
+        }
+
+        await LoadAsync();
+    }
+
+    private async Task ReloadAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        if (_isLoading)
+        {
+            return;
+        }
+
+        _isLoading = true;
+        ErrorMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            WeatherLocationOptions location = LocationOptions.Value;
+
+            Result<WeatherDashboard> result = await Sender.Send(
+                new GetWeatherDashboardQuery(location.Latitude, location.Longitude),
+                _cancellation.Token);
+
+            if (result.IsSuccess)
+            {
+                Dashboard = result.Value.ToResponse();
+            }
+            else
+            {
+                ErrorMessage = result.Error.Message;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Пользователь ушёл со страницы — показывать нечего.
+        }
+        catch (Exception exception) when (exception is not OutOfMemoryException)
+        {
+            ErrorMessage = "Непредвиденная ошибка при обращении к погодному сервису.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        _cancellation.Cancel();
+        _cancellation.Dispose();
+    }
+}

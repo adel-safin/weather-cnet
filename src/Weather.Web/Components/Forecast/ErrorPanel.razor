@@ -1,0 +1,27 @@
+<section class="error-panel" role="alert" aria-live="assertive">
+    <div class="error-panel__icon" aria-hidden="true">!</div>
+
+    <div class="error-panel__body">
+        <h2 class="error-panel__title">Не удалось загрузить погоду</h2>
+        <p class="error-panel__message">@Message</p>
+    </div>
+
+    <button type="button"
+            class="button button--primary"
+            disabled="@IsRetrying"
+            @onclick="OnRetry">
+        @(IsRetrying ? "Повторяем…" : "Повторить запрос")
+    </button>
+</section>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required string Message { get; set; }
+
+    [Parameter]
+    public bool IsRetrying { get; set; }
+
+    [Parameter]
+    public EventCallback OnRetry { get; set; }
+}

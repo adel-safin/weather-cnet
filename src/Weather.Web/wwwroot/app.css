@@ -1,0 +1,553 @@
+:root {
+  color-scheme: light dark;
+
+  --bg: #eef2f9;
+  --bg-gradient: radial-gradient(circle at 15% 10%, #dbe7ff 0%, transparent 45%),
+                 radial-gradient(circle at 85% 0%, #e6dcff 0%, transparent 40%);
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: #ffffff;
+  --surface-border: rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --text-muted: #5b6b85;
+  --accent: #2563eb;
+  --accent-contrast: #ffffff;
+  --danger: #b42318;
+  --danger-surface: #fef3f2;
+  --danger-border: #fda29b;
+  --shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.45);
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1120;
+    --bg-gradient: radial-gradient(circle at 15% 10%, #1b2a52 0%, transparent 45%),
+                   radial-gradient(circle at 85% 0%, #2a1f4d 0%, transparent 40%);
+    --surface: rgba(23, 33, 56, 0.78);
+    --surface-strong: #172138;
+    --surface-border: rgba(148, 163, 184, 0.16);
+    --text: #e8eefc;
+    --text-muted: #9aabc8;
+    --accent: #60a5fa;
+    --accent-contrast: #0b1120;
+    --danger: #fda29b;
+    --danger-surface: rgba(180, 35, 24, 0.18);
+    --danger-border: rgba(253, 162, 155, 0.45);
+    --shadow: 0 22px 45px -28px rgba(0, 0, 0, 0.9);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+p,
+dl,
+dd {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Каркас страницы ---------- */
+
+.page {
+  width: min(1120px, 100% - 2.5rem);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) 0 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.page__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.page__title {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.page__subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.page__content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  transition: opacity 180ms ease;
+}
+
+.page__content--refreshing {
+  opacity: 0.55;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.section-header h2 {
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.section-header__hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Кнопки ---------- */
+
+.button {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.6rem 1.35rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.button:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+.button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.button--primary {
+  background-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.button--ghost {
+  background-color: var(--surface);
+  border-color: var(--surface-border);
+  color: var(--text);
+  backdrop-filter: blur(12px);
+}
+
+/* ---------- Текущая погода ---------- */
+
+.current-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  color: #f8fafc;
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 45%, #60a5fa 100%);
+}
+
+.current-card--night {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 45%, #334155 100%);
+}
+
+.current-card__main {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  grid-template-columns: minmax(220px, auto) 1fr;
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .current-card__main {
+    grid-template-columns: 1fr;
+  }
+}
+
+.current-card__headline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.current-card__icon {
+  width: 96px;
+  height: 96px;
+  filter: drop-shadow(0 10px 18px rgba(2, 6, 23, 0.35));
+}
+
+.current-card__temperature {
+  font-size: clamp(3rem, 8vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.current-card__condition {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
+}
+
+.current-card__feels {
+  color: rgba(248, 250, 252, 0.78);
+  font-size: 0.92rem;
+}
+
+.current-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.9rem 1.5rem;
+}
+
+.current-card__updated {
+  margin-top: 1.4rem;
+  color: rgba(248, 250, 252, 0.7);
+  font-size: 0.82rem;
+}
+
+.metric dt {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(248, 250, 252, 0.7);
+}
+
+.metric dd {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ---------- Почасовой прогноз ---------- */
+
+.hourly__scroller {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.hourly__group {
+  flex: 0 0 auto;
+}
+
+.hourly__group-title {
+  position: sticky;
+  left: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.hourly__items {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.hour {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 82px;
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-border);
+  background-color: var(--surface);
+  backdrop-filter: blur(12px);
+}
+
+.hour--now {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+
+.hour__time {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.hour--now .hour__time {
+  color: var(--accent);
+}
+
+.hour__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0.15rem auto;
+}
+
+.hour__temperature {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.hour__precipitation {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.hour__precipitation--likely {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Прогноз на три дня ---------- */
+
+.daily__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--surface-border);
+  background-color: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.day__title {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.day__subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.day__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.day__icon {
+  width: 64px;
+  height: 64px;
+}
+
+.day__temperatures {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.day__max {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.day__min {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.day__condition {
+  font-weight: 600;
+}
+
+.day__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.metric--compact dt {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.metric--compact dd {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* ---------- Ошибка ---------- */
+
+.error-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--danger-border);
+  background-color: var(--danger-surface);
+  color: var(--danger);
+}
+
+.error-panel__icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.error-panel__body {
+  flex: 1 1 260px;
+}
+
+.error-panel__title {
+  font-size: 1.1rem;
+  font-weight: 650;
+}
+
+.error-panel__message {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+/* ---------- Скелетон загрузки ---------- */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+  border: 1px solid var(--surface-border);
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.25), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer::after {
+    animation: none;
+  }
+}
+
+.skeleton__hero {
+  height: 230px;
+  border-radius: var(--radius-lg);
+}
+
+.skeleton__row {
+  display: flex;
+  gap: 0.6rem;
+  overflow: hidden;
+}
+
+.skeleton__hour {
+  flex: 0 0 82px;
+  height: 148px;
+}
+
+.skeleton__days {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.skeleton__day {
+  height: 240px;
+  border-radius: var(--radius-lg);
+}
+
+/* ---------- Служебный блок ошибок Blazor ---------- */
+
+#blazor-error-ui {
+  display: none;
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 0.8rem 1.25rem;
+  background: #fff3cd;
+  color: #664d03;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.25);
+}
+
+#blazor-error-ui .dismiss {
+  cursor: pointer;
+  float: right;
+}
