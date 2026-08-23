@@ -76,15 +76,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Настройка Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Сборка образа
         uses: docker/build-push-action@v6
         with:
           context: .
           push: false
-          load: true
           tags: weather-app:ci
+          # type=gha нельзя экспортировать драйвером docker, поэтому собираем через Buildx и грузим tar в демон
+          outputs: type=docker,dest=/tmp/weather-app.tar
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Загрузка образа
+        run: docker load --input /tmp/weather-app.tar
 
       - name: Проверка запуска контейнера
         run: |
